@@ -2,7 +2,7 @@
 .godot/
 
 # Ignore library files but not the gdextension file
-demo/bin/*
+#demo/bin/*
 !demo/bin/*.gdextension
 .sconsign*.dblite
 
