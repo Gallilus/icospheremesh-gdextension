@@ -4,17 +4,32 @@
 #include <godot_cpp/core/defs.hpp>
 #include <godot_cpp/godot.hpp>
 
+#include "ico_sphere_mesh.h"
+
 using namespace godot;
 
-void initialize_gdextension_types(ModuleInitializationLevel p_level)
-{
-	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
-		return;
+void initialize_gdextension_types(ModuleInitializationLevel p_level) {
+	ERR_PRINT("GDEXTENSION_MAX_INITIALIZATION_LEVEL");
+	if (p_level == GDEXTENSION_INITIALIZATION_CORE){
+		ERR_PRINT("GDEXTENSION_INITIALIZATION_CORE");
 	}
+	if (p_level == GDEXTENSION_INITIALIZATION_SERVERS){
+		ERR_PRINT("GDEXTENSION_INITIALIZATION_SERVERS");
+	}
+	if (p_level == GDEXTENSION_INITIALIZATION_SCENE) {
+		ERR_PRINT("GDEXTENSION_INITIALIZATION_SCENE");
+	}
+	if (p_level == GDEXTENSION_INITIALIZATION_EDITOR) {
+		ERR_PRINT("GDEXTENSION_INITIALIZATION_EDITOR");
+	}	
+	if (p_level == GDEXTENSION_MAX_INITIALIZATION_LEVEL) {
+		ERR_PRINT("GDEXTENSION_MAX_INITIALIZATION_LEVEL");
+	}
+	ClassDB::register_class<IcoSphereMesh>();
 }
 
 void uninitialize_gdextension_types(ModuleInitializationLevel p_level) {
-	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
+	if (p_level != GDEXTENSION_INITIALIZATION_SCENE) {
 		return;
 	}
 }
