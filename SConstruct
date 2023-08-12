@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-libname = "EXTENSION-NAME"
+libname = "libicospheremesh"
 
 env = SConscript("godot-cpp/SConstruct")
 
