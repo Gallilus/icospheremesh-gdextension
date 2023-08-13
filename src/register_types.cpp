@@ -1,4 +1,5 @@
 #include "register_types.h"
+
 #include <gdextension_interface.h>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/core/defs.hpp>
@@ -9,23 +10,19 @@
 using namespace godot;
 
 void initialize_gdextension_types(ModuleInitializationLevel p_level) {
-	ERR_PRINT("GDEXTENSION_MAX_INITIALIZATION_LEVEL");
-	if (p_level == GDEXTENSION_INITIALIZATION_CORE){
-		ERR_PRINT("GDEXTENSION_INITIALIZATION_CORE");
+	if (p_level == GDEXTENSION_INITIALIZATION_CORE) {
+		// level core is not supported by GDExtension
 	}
-	if (p_level == GDEXTENSION_INITIALIZATION_SERVERS){
-		ERR_PRINT("GDEXTENSION_INITIALIZATION_SERVERS");
+	if (p_level == GDEXTENSION_INITIALIZATION_SERVERS) {
+		// Load dependencies here
 	}
 	if (p_level == GDEXTENSION_INITIALIZATION_SCENE) {
-		ERR_PRINT("GDEXTENSION_INITIALIZATION_SCENE");
+		// Default initialization level register classes here using ClassDB::register_class<T>();
+		ClassDB::register_class<IcoSphereMesh>();
 	}
 	if (p_level == GDEXTENSION_INITIALIZATION_EDITOR) {
-		ERR_PRINT("GDEXTENSION_INITIALIZATION_EDITOR");
-	}	
-	if (p_level == GDEXTENSION_MAX_INITIALIZATION_LEVEL) {
-		ERR_PRINT("GDEXTENSION_MAX_INITIALIZATION_LEVEL");
+		// This level is never used by the core project
 	}
-	ClassDB::register_class<IcoSphereMesh>();
 }
 
 void uninitialize_gdextension_types(ModuleInitializationLevel p_level) {
@@ -34,8 +31,7 @@ void uninitialize_gdextension_types(ModuleInitializationLevel p_level) {
 	}
 }
 
-extern "C"
-{
+extern "C" {
 	// Initialization
 	GDExtensionBool GDE_EXPORT icospheremesh_library_init(GDExtensionInterfaceGetProcAddress p_get_proc_address, GDExtensionClassLibraryPtr p_library, GDExtensionInitialization *r_initialization)
 	{
