@@ -3,6 +3,10 @@
 entry_symbol = "icospheremesh_library_init"
 compatibility_minimum = 4.1
 
+[Icon]
+
+IcoSphereMesh = "res://bin/IcoSphereMesh.svg"
+
 [libraries]
 
 macos.debug = "res://bin/libicospheremesh.macos.template_debug.framework"
