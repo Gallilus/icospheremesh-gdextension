@@ -36,13 +36,11 @@ godot::IcoSphereMesh::IcoSphereMesh() {
         _core_triangles[17] = Vector3i(9,11,2);
         _core_triangles[18] = Vector3i(9,2,5);
         _core_triangles[19] = Vector3i(7,2,11);
+        
+    update_mesh();
 }
 
 godot::IcoSphereMesh::~IcoSphereMesh() {
-}
-
-void godot::IcoSphereMesh::_init() {
-    update_mesh();
 }
 
 void godot::IcoSphereMesh::update_mesh()
@@ -73,6 +71,7 @@ void godot::IcoSphereMesh::update_mesh()
     arrays.resize(Mesh::ARRAY_MAX);
     arrays[Mesh::ARRAY_VERTEX] = _vertices;
     arrays[Mesh::ARRAY_INDEX] = _triangles_list;
+    arrays[Mesh::ARRAY_NORMAL] = _vertices;
     arrays[Mesh::ARRAY_TEX_UV] = _uvs;
     // create the mesh
     clear_surfaces();

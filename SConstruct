@@ -10,12 +10,12 @@ sources = Glob("src/*.cpp")
 if env["platform"] == "macos":
     platlibname = "{}.{}.{}".format(libname, env["platform"], env["target"])
     library = env.SharedLibrary(
-        "demo/bin/{}.framework/{}".format(platlibname, platlibname),
+        "demo/addons/icospheremesh/bin/{}.framework/{}".format(platlibname, platlibname),
         source=sources,
     )
 else:
     library = env.SharedLibrary(
-        "demo/bin/{}{}{}".format(libname, env["suffix"], env["SHLIBSUFFIX"]),
+        "demo/addons/icospheremesh/bin/{}{}{}".format(libname, env["suffix"], env["SHLIBSUFFIX"]),
         source=sources,
     )
 

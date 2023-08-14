@@ -3,7 +3,7 @@
 
 # Ignore library files but not the gdextension file
 #demo/bin/*
-!demo/bin/*.gdextension
+!demo/addons/icospheremesh/*.gdextension
 .sconsign*.dblite
 
 # Binaries
@@ -23,6 +23,7 @@
 *.includes
 *.idb
 *.exp
+*.dll
 
 # Other stuff
 *.log

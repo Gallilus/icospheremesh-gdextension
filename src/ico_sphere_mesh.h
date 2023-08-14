@@ -8,12 +8,11 @@ namespace godot {
 
 class IcoSphereMesh : public ArrayMesh {
     GDCLASS(IcoSphereMesh, ArrayMesh)
+    
 
 public:
     IcoSphereMesh();
     ~IcoSphereMesh();
-
-    void _init();
 
     /** @brief Updates the mesh, needs to be called every time a property schanges*/
     void update_mesh();
