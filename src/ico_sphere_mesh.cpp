@@ -1,58 +1,59 @@
 #include "ico_sphere_mesh.h"
 
 godot::IcoSphereMesh::IcoSphereMesh() {
-        _core_vertices.resize(12);
-        _core_vertices.set(0, Vector3(-X,N,Z));
-        _core_vertices.set(1, Vector3(X,N,Z));
-        _core_vertices.set(2, Vector3(-X,N,-Z));
-        _core_vertices.set(3, Vector3(X,N,-Z));
-        _core_vertices.set(4, Vector3(N,Z,X));
-        _core_vertices.set(5, Vector3(N,Z,-X));
-        _core_vertices.set(6, Vector3(N,-Z,X));
-        _core_vertices.set(7, Vector3(N,-Z,-X));
-        _core_vertices.set(8, Vector3(Z,X,N));
-        _core_vertices.set(9, Vector3(-Z,X, N));
-        _core_vertices.set(10, Vector3(Z,-X,N));
-        _core_vertices.set(11, Vector3(-Z,-X, N));
+    _core_vertices.resize(12);
+    _core_vertices.set(0, Vector3(-X,N,Z));
+    _core_vertices.set(1, Vector3(X,N,Z));
+    _core_vertices.set(2, Vector3(-X,N,-Z));
+    _core_vertices.set(3, Vector3(X,N,-Z));
+    _core_vertices.set(4, Vector3(N,Z,X));
+    _core_vertices.set(5, Vector3(N,Z,-X));
+    _core_vertices.set(6, Vector3(N,-Z,X));
+    _core_vertices.set(7, Vector3(N,-Z,-X));
+    _core_vertices.set(8, Vector3(Z,X,N));
+    _core_vertices.set(9, Vector3(-Z,X, N));
+    _core_vertices.set(10, Vector3(Z,-X,N));
+    _core_vertices.set(11, Vector3(-Z,-X, N));
 
-        _core_triangles.resize(20);
-        _core_triangles[0] = Vector3(0,4,1);
-        _core_triangles[1] = Vector3(0,9,4);
-        _core_triangles[2] = Vector3(9,5,4);
-        _core_triangles[3] = Vector3(4,5,8);
-        _core_triangles[4] = Vector3(4,8,1);
-        _core_triangles[5] = Vector3(8,10,1);
-        _core_triangles[6] = Vector3(8,3,10);
-        _core_triangles[7] = Vector3(5,3,8);
-        _core_triangles[8] = Vector3(5,2,3);
-        _core_triangles[9] = Vector3(2,7,3);
-        _core_triangles[10] = Vector3(7,10,3);
-        _core_triangles[11] = Vector3(7,6,10);
-        _core_triangles[12] = Vector3(7,11,6);
-        _core_triangles[13] = Vector3(11,0,6);
-        _core_triangles[14] = Vector3(0,1,6);
-        _core_triangles[15] = Vector3(6,1,10);
-        _core_triangles[16] = Vector3(9,0,11);
-        _core_triangles[17] = Vector3i(9,11,2);
-        _core_triangles[18] = Vector3i(9,2,5);
-        _core_triangles[19] = Vector3i(7,2,11);
-        
+    _core_triangles.resize(20);
+    _core_triangles[0] = Vector3(0,4,1);
+    _core_triangles[1] = Vector3(0,9,4);
+    _core_triangles[2] = Vector3(9,5,4);
+    _core_triangles[3] = Vector3(4,5,8);
+    _core_triangles[4] = Vector3(4,8,1);
+    _core_triangles[5] = Vector3(8,10,1);
+    _core_triangles[6] = Vector3(8,3,10);
+    _core_triangles[7] = Vector3(5,3,8);
+    _core_triangles[8] = Vector3(5,2,3);
+    _core_triangles[9] = Vector3(2,7,3);
+    _core_triangles[10] = Vector3(7,10,3);
+    _core_triangles[11] = Vector3(7,6,10);
+    _core_triangles[12] = Vector3(7,11,6);
+    _core_triangles[13] = Vector3(11,0,6);
+    _core_triangles[14] = Vector3(0,1,6);
+    _core_triangles[15] = Vector3(6,1,10);
+    _core_triangles[16] = Vector3(9,0,11);
+    _core_triangles[17] = Vector3i(9,11,2);
+    _core_triangles[18] = Vector3i(9,2,5);
+    _core_triangles[19] = Vector3i(7,2,11);
+    
     update_mesh();
 }
 
 godot::IcoSphereMesh::~IcoSphereMesh() {
 }
 
-void godot::IcoSphereMesh::update_mesh()
-{
+void godot::IcoSphereMesh::update_mesh() {
+    // reset ll values
     _triangles = _core_triangles;
     _triangles_list.clear();
     _vertices = _core_vertices;
     _uvs.clear();
+    // populate initial UVs
     for (int i = 0; i < _core_vertices.size(); i++) {
         _uvs.push_back(get_uv(_core_vertices[i]));
     }
-
+    // subdivide
     for (int i = 0; i < _subdivisions; i++) {
         _triangles = _get_subdivided();
     }
@@ -76,6 +77,7 @@ void godot::IcoSphereMesh::update_mesh()
     // create the mesh
     clear_surfaces();
     add_surface_from_arrays(Mesh::PRIMITIVE_TRIANGLES, arrays);
+    // Notify the engine that the mesh has changed.
     emit_changed();
 }
 
@@ -103,9 +105,11 @@ float godot::IcoSphereMesh::get_diameter() const {
 }
 
 void godot::IcoSphereMesh::_bind_methods() {
+    // Bind export propertie subdivisions
     ClassDB::bind_method(D_METHOD("set_subdivisions", "subdivisions"), &IcoSphereMesh::set_subdivisions);
     ClassDB::bind_method(D_METHOD("get_subdivisions"), &IcoSphereMesh::get_subdivisions);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "subdivisions", PROPERTY_HINT_RANGE, "0,6,1"), "set_subdivisions", "get_subdivisions");
+    // Bind export property diameter
     ClassDB::bind_method(D_METHOD("set_diameter", "diameter"), &IcoSphereMesh::set_diameter);
     ClassDB::bind_method(D_METHOD("get_diameter"), &IcoSphereMesh::get_diameter);
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "diameter", PROPERTY_HINT_RANGE, "0.01,100,0.01"), "set_diameter", "get_diameter");
